@@ -1,9 +1,11 @@
-package com.searover.photogallery;
+package com.searover.photogallery.ui;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.searover.photogallery.R;
 
 
 public class MainActivity extends ActionBarActivity {
