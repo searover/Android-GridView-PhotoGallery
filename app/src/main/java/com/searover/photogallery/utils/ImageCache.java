@@ -1,6 +1,8 @@
 package com.searover.photogallery.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.util.LruCache;
 
 /**
  * Created by searover on 3/14/15.
@@ -30,6 +32,16 @@ public class ImageCache {
     private static final boolean DEFAULT_DISK_CACHE_ENABLED = true;
     private static final boolean DEFAULT_INIT_DISK_CACHE_ON_CREATE = false;
 
+    private DiskLruCache mDiskLruCache;
+    private LruCache<String, BitmapDrawable> mMemoryCache;
+    private ImageCacheParams mCacheParams;
 
+
+    /**
+     * A holder class that contains cache parameters.
+     */
+    public static class ImageCacheParams{
+        public int memCacheSize = DEFAULT_MEM_CACHE_SIZE;
+    }
 
 }
