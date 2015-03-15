@@ -1,6 +1,8 @@
 package com.searover.photogallery.ui;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -13,13 +15,18 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.searover.photogallery.BuildConfig;
 import com.searover.photogallery.R;
 import com.searover.photogallery.provider.Photos;
+import com.searover.photogallery.utils.Utils;
 
 import java.lang.reflect.TypeVariable;
 
-
-public class MainActivity extends ActionBarActivity {
+/**
+ * Simple FragmentActivity to hold the main {@link com.searover.photogallery.ui.PhotoGalleryFragment}
+ * and not much else.
+ */
+public class MainActivity extends FragmentActivity {
 
     private static final String TAG = "MainActivity";
     private static final String IMAGE_CACHE_DIR = "thumbs";
@@ -29,31 +36,16 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if(BuildConfig.DEBUG){
+            Utils.enableStrictMode();
         }
+        super.onCreate(savedInstanceState);
 
-        return super.onOptionsItemSelected(item);
+        if(getSupportFragmentManager().findFragmentByTag(TAG) == null){
+            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(android.R.id.content, new PhotoGalleryFragment(), TAG);
+            transaction.commit();
+        }
     }
 
     private class ImageAdapter extends BaseAdapter{
