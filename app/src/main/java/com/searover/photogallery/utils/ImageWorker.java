@@ -66,9 +66,11 @@ public abstract class ImageWorker {
             value = mImageCache.getBitmapFromMemCache(String.valueOf(data));
         }
         if(value != null){
+            Log.w(TAG,"Bitmap found in memory cache");
             // Bitmap found in memory cache
             imageView.setImageDrawable(value);
         }else if(cancelPotentialWork(data,imageView)){
+            Log.w(TAG,"Bitmap not found in memory cache");
             final BitmapWorkerTask task = new BitmapWorkerTask(data,imageView);
             final AsyncDrawable asyncDrawable = new AsyncDrawable(mResources,mLoadingBitmap,task);
             imageView.setImageDrawable(asyncDrawable);

@@ -78,6 +78,7 @@ public class ImageFetcher extends ImageResizer {
             mHttpCacheDir.mkdirs();
         }
         synchronized (mHttpDiskCacheLock){
+            long usable = ImageCache.getUsableSpace(mHttpCacheDir);
             if(ImageCache.getUsableSpace(mHttpCacheDir) > HTTP_CACHE_SIZE){
                 try {
                     mHttpDiskCache = DiskLruCache.open(mHttpCacheDir,1,1,HTTP_CACHE_SIZE);
@@ -232,6 +233,11 @@ public class ImageFetcher extends ImageResizer {
             }
         }
         return bitmap;
+    }
+
+    @Override
+    protected Bitmap processBitmap(Object data){
+        return processBitmap(String.valueOf(data));
     }
 
     public boolean downloadUrlToStream(String urlString, OutputStream outputStream){

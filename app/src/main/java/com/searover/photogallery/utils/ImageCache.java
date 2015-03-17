@@ -28,7 +28,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -193,7 +192,7 @@ public class ImageCache {
             }
         }
         mDiskCacheStarting = false;
-        mDiskCacheLock.notifyAll();
+//        mDiskCacheLock.notifyAll();
     }
 
     /**
@@ -296,8 +295,8 @@ public class ImageCache {
                             FileDescriptor fd = ((FileInputStream)inputStream).getFD();
                             // Decode bitmap, but we don't want to sample so give
                             // MAX_VALUE as the target dimensions
-                            bitmap = ImageResizer.decodeSampleBitmapFormDescriptor(
-                                        fd,Integer.MAX_VALUE,Integer.MAX_VALUE, this);
+                            bitmap = ImageResizer.decodeSampleBitmapFromDescriptor(
+                                    fd, Integer.MAX_VALUE, Integer.MAX_VALUE, this);
                         }
                     }
                 } catch (IOException e) {
@@ -485,7 +484,7 @@ public class ImageCache {
      * @return
      */
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    public static boolean isExternalStorageReovable(){
+    public static boolean isExternalStorageRemovable(){
         if(Utils.hasGingerbread()){
             return Environment.isExternalStorageRemovable();
         }
@@ -493,7 +492,7 @@ public class ImageCache {
     }
 
     public static File getExternalCacheDir(Context context){
-        if(Utils.hasFroyo()){
+        if(!Utils.hasFroyo()){
             return context.getExternalCacheDir();
         }
 
@@ -511,9 +510,13 @@ public class ImageCache {
     public static File getDiskCacheDir(Context context, String uniqueName){
         // Check if media is mounted or storage is built-in, if so, try and use external
         // cache dir, otherwise use internal cache dir.
+        boolean i1 = isExternalStorageRemovable();
+        File f1 = getExternalCacheDir(context);
+        File f2 = context.getCacheDir();
+        boolean i2 = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
         final String cachePath =
                 Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-                !isExternalStorageReovable() ? getExternalCacheDir(context).getPath() :
+                !isExternalStorageRemovable() ? getExternalCacheDir(context).getPath() :
                 context.getCacheDir().getPath();
         return new File(cachePath + File.separator + uniqueName);
     }
