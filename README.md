@@ -9,6 +9,5 @@ Lru的缓存算法将图片资源缓存到内存与磁盘
 UI展示图片缩略图，防止图片过大导致的OutOfMemory
 为GridView的Item回收复用造成异步加载的并发性问题提供一个很好的解决方案
 #Screenshots
-![image](https://github.com/Alex987965/Android-GridView-PhotoGallery/blob/master/screenshots/screenshot_1.png)
-![image](https://github.com/Alex987965/Android-GridView-PhotoGallery/blob/master/screenshots/screenshot_2.png)
-![image](https://github.com/Alex987965/Android-GridView-PhotoGallery/blob/master/screenshots/screenshot_3.png)
+![image](https://github.com/Alex987965/Android-GridView-PhotoGallery/blob/master/screenshots/Screenshot_2015-03-17-22-20-10.png)
+![image](https://github.com/Alex987965/Android-GridView-PhotoGallery/blob/master/screenshots/Screenshot_2015-03-17-22-20-27.png)
